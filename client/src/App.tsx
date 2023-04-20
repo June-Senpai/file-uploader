@@ -33,7 +33,12 @@ function App() {
       <div className={theme}>
         <div className="App">
           <Router>
-            <Navbar setTheme={setTheme} theme={theme} user={user} />
+            <Navbar
+              setTheme={setTheme}
+              theme={theme}
+              user={user}
+              setUser={setUser}
+            />
             <Routes>
               <Route
                 path="/"

@@ -16,23 +16,15 @@ function getActiveClass(route: any, location: any) {
 import ReactSwitch from "react-switch";
 
 type Theme = "light" | "dark";
-type User = {
-  _id: "64404379d974a29b37c7cd10";
-  username: "Keshav Juneja";
-  email: "keshav01juneja@gmail.com";
-  unique_id: "4c4c9307-ac41-44ac-9bc2-7f54c38fb409";
-  loggedInState: true;
-  createdAt: "2023-04-19T19:39:37.902Z";
-  updatedAt: "2023-04-20T17:56:40.673Z";
-  __v: 0;
-};
+type User = any;
 interface NavbarProps {
   setTheme: (theme: Theme) => void;
   theme: Theme;
   user: User;
+  setUser: (user: User) => void;
 }
 
-const Navbar: FC<NavbarProps> = ({ setTheme, theme, user }) => {
+const Navbar: FC<NavbarProps> = ({ setTheme, theme, user, setUser }) => {
   const toggleTheme = () => {
     if (theme === "light") {
       document.documentElement.style.setProperty("--color1", "black");
@@ -105,13 +97,20 @@ const Navbar: FC<NavbarProps> = ({ setTheme, theme, user }) => {
                   Login/Register
                 </NavLink>
               ) : (
-                <button>LogOut {user.username}</button>
+                <button
+                  onClick={() => {
+                    document.cookie =
+                      "fileUploaderUserEmail=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;fileUploaderuuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    navigate("/auth");
+                    user.username = "";
+                    setUser(null);
+                  }}
+                >
+                  LogOut {user.username}
+                </button>
               )}
             </div>
           </div>
-          {/* <button className="toggle-theme-button" onClick={toggleTheme}>
-            Toggle Theme
-          </button> */}
 
           <div className="toggle-theme-button">
             <ReactSwitch

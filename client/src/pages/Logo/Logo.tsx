@@ -1,39 +1,47 @@
 import React from "react";
 import { useState, useEffect, FC } from "react";
 import "./logo.css";
+import { useNavigate } from "react-router-dom";
 import { ThemedBackground } from "../../component/ThemedBackground";
 import axios from "axios";
-type User = {
-  _id: "64404379d974a29b37c7cd10";
-  username: "Keshav Juneja";
-  email: "keshav01juneja@gmail.com";
-  unique_id: "4c4c9307-ac41-44ac-9bc2-7f54c38fb409";
-  loggedInState: true;
-  createdAt: "2023-04-19T19:39:37.902Z";
-  updatedAt: "2023-04-20T17:56:40.673Z";
-  __v: 0;
-};
+type User = any;
 interface LogoProps {
   setUser: (user: User) => void;
   user: User;
 }
 export const Logo: FC<LogoProps> = ({ setUser, user }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  });
   const [files, setFiles] = useState<any>([]);
   useEffect(() => {
-    let ss = new FormData();
-    ss.append;
     const response = fetch("http://localhost:4001/login/status", {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => setUser(data.response));
-    if (user) {
-      fetch("http://localhost:4001/file/list", {
-        credentials: "include",
+      .then((data) => {
+        console.log(data);
+        setUser(data.response);
+        return data.response;
       })
-        .then((res) => res.json())
-        .then((data) => setFiles(data.response));
-    }
+      .then((user) => {
+        console.log({ user });
+
+        if (user) {
+          fetch("http://localhost:4001/file/list", {
+            credentials: "include",
+          })
+            .then((res) => res.json())
+            .then((data) => setFiles(data.response));
+          navigate("/");
+        } else {
+          navigate("/auth");
+        }
+      });
+
     return () => {};
   }, [user?.username]);
   console.log({ files });
