@@ -30,16 +30,12 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
       .then((user) => {
         console.log({ user });
 
-        if (user) {
-          fetch("http://localhost:4001/file/list", {
-            credentials: "include",
-          })
-            .then((res) => res.json())
-            .then((data) => setFiles(data.response));
-          navigate("/");
-        } else {
-          navigate("/auth");
-        }
+        fetch("http://localhost:4001/file/list", {
+          credentials: "include",
+        })
+          .then((res) => res.json())
+          .then((data) => setFiles(data.response));
+        navigate("/");
       });
 
     return () => {};
