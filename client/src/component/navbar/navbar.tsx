@@ -98,6 +98,7 @@ const Navbar: FC<NavbarProps> = ({ setTheme, theme, user, setUser }) => {
                 </NavLink>
               ) : (
                 <button
+                  className="delete-button"
                   onClick={() => {
                     document.cookie =
                       "fileUploaderUserEmail=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;fileUploaderuuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

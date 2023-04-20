@@ -6,8 +6,34 @@
 
 .List {
   position: absolute;
-  top: 50%;
+  top: 5%;
   left: 50%;
+  transform: translateX(-50%);
   z-index: 300;
-  color: black;
+  color: var(--color3);
+  font-size: 2rem;
+}
+.List input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  border: 3px orange solid;
+  border-radius: 2rem;
+}
+.center-align {
+  text-align: center;
+}
+.delete-button {
+  margin: 1rem;
+  padding: 8px;
+  border-radius: 2rem;
+  cursor: pointer;
+  border: 3px rgb(255, 0, 255) solid;
+  background: transparent;
+  color: var(--color3);
+  font-size: 1.2rem;
 }

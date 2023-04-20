@@ -45,34 +45,36 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
     <div className="logo-container">
       <ThemedBackground />
       <ul className="List">
-        <label htmlFor="">
-          Upload File
-          <input
-            onChange={(e) => {
-              const file = e.target.files ? e.target.files[0] : new Blob();
-              const reader = new FileReader();
-              reader.onload = (e) => {
-                const form = new FormData();
-                form.append("file", file);
-                fetch("http://localhost:4001/file/upload", {
-                  method: "POST",
-                  credentials: "include",
-                  body: form,
-                })
-                  .then((data) => data.json())
-                  .then((data) => {
-                    setFiles([...files, data.response]);
+        <p className="center-align">
+          <label className="custom-file-upload">
+            <input
+              onChange={(e) => {
+                const file = e.target.files ? e.target.files[0] : new Blob();
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  const form = new FormData();
+                  form.append("file", file);
+                  fetch("http://localhost:4001/file/upload", {
+                    method: "POST",
+                    credentials: "include",
+                    body: form,
                   })
+                    .then((data) => data.json())
+                    .then((data) => {
+                      setFiles([...files, data.response]);
+                    })
 
-                  .catch((error) => console.log(error));
-                console.log(e.target?.result);
-              };
-              reader.readAsText(file);
-              console.log(e.target.files);
-            }}
-            type="file"
-          ></input>
-        </label>
+                    .catch((error) => console.log(error));
+                  console.log(e.target?.result);
+                };
+                reader.readAsText(file);
+                console.log(e.target.files);
+              }}
+              type="file"
+            ></input>
+            Upload File
+          </label>
+        </p>
         {files.map((file: any) => {
           return (
             <li key={file._id}>
@@ -80,6 +82,7 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
                 {file.fileName}
               </a>
               <button
+                className="delete-button"
                 onClick={() => {
                   fetch("http://localhost:4001/file/delete/" + file._id, {
                     credentials: "include",
