@@ -2,6 +2,7 @@ import express, { json } from "express";
 // import mongoose from "mongoose";
 import multerMiddleWare from "../middlewares/MulterMiddleware.js";
 import FileModel from "../models/fileSchema.js";
+import fs from "fs";
 const router = express.Router();
 
 router.get("/file/list", async (req, res) => {
@@ -29,6 +30,9 @@ router.post(
 );
 router.get("/file/delete/:fileid", async (req, res) => {
   let _id = req.params.fileid;
+  let oldFile = await FileModel.findOne({ _id });
+  let filePath = `public/uploads/${oldFile.fileName}`;
+  fs.unlinkSync(filePath);
   await FileModel.deleteOne({ _id });
   res.send("handling post requests...");
 });

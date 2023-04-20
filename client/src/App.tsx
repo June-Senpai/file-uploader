@@ -6,8 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import { Logo } from "./pages/Logo/Logo";
-import { Search } from "./pages/Search";
-import { Cart } from "./pages/cart/Cart";
 import Auth from "./pages/Auth/Auth";
 import Navbar from "./component/navbar/navbar";
 import { createContext, useContext, useState, useEffect } from "react";
@@ -24,6 +22,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 
 function App() {
   const [theme, setTheme] = useState<Theme>("light");
+  const [user, setUser] = useState<any>();
 
   useEffect(() => {
     document.body.className = theme; // add theme value as class name to body element
@@ -34,9 +33,12 @@ function App() {
       <div className={theme}>
         <div className="App">
           <Router>
-            <Navbar setTheme={setTheme} theme={theme} />
+            <Navbar setTheme={setTheme} theme={theme} user={user} />
             <Routes>
-              <Route path="/" element={<Logo />} />
+              <Route
+                path="/"
+                element={<Logo setUser={setUser} user={user} />}
+              />
               <Route path="/auth" element={<Auth />} />
               {/* //!for any unknown route without /random-word */}
               <Route path="*" element={<Navigate to="/" />} />

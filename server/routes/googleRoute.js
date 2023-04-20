@@ -54,8 +54,8 @@ router.get(
         await newUsers.save();
       }
       let user = await UserModel.findOne({ email });
-      res.cookie("fileUploaderuuid", unique_id);
-      res.cookie("fileUploaderUserEmail", email);
+      res.cookie("fileUploaderuuid", unique_id, { signed: true });
+      res.cookie("fileUploaderUserEmail", email, { signed: true });
       res.status(200).redirect("http://localhost:5173/?signedin=1");
     } catch (err) {
       console.error(err);
@@ -65,9 +65,14 @@ router.get(
 );
 
 router.get("/login/status", async (req, res) => {
-  let unique_id = res.cookie.fileUploaderuuid;
-  let email = res.cookie.fileUploaderUserEmail;
   try {
+    console.log(req.headers);
+    let unique_id = req.signedCookies.fileUploaderuuid;
+    // cookie.fileUploaderuuid;
+    let email = req.signedCookies.fileUploaderUserEmail;
+    console.log({ email });
+    console.log({ unique_id });
+    // cookie.fileUploaderUserEmail;
     let user = await UserModel.findOne({ email });
     if (user && user.unique_id === unique_id) {
       await UserModel.updateOne(
@@ -90,7 +95,7 @@ router.get("/login/status", async (req, res) => {
       );
       res.status(200).json({ message: "login failed,try again" });
     }
-  } catch {
+  } catch (err) {
     console.error(err);
     res.status(500).json({ message: "internal server error" });
   }

@@ -1,4 +1,13 @@
 .logo-container {
   height: calc(100vh - 4rem);
   color: var(--color1);
+  position: relative;
+}
+
+.List {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 300;
+  color: black;
 }

@@ -16,12 +16,23 @@ function getActiveClass(route: any, location: any) {
 import ReactSwitch from "react-switch";
 
 type Theme = "light" | "dark";
+type User = {
+  _id: "64404379d974a29b37c7cd10";
+  username: "Keshav Juneja";
+  email: "keshav01juneja@gmail.com";
+  unique_id: "4c4c9307-ac41-44ac-9bc2-7f54c38fb409";
+  loggedInState: true;
+  createdAt: "2023-04-19T19:39:37.902Z";
+  updatedAt: "2023-04-20T17:56:40.673Z";
+  __v: 0;
+};
 interface NavbarProps {
   setTheme: (theme: Theme) => void;
   theme: Theme;
+  user: User;
 }
 
-const Navbar: FC<NavbarProps> = ({ setTheme, theme }) => {
+const Navbar: FC<NavbarProps> = ({ setTheme, theme, user }) => {
   const toggleTheme = () => {
     if (theme === "light") {
       document.documentElement.style.setProperty("--color1", "black");
@@ -86,9 +97,16 @@ const Navbar: FC<NavbarProps> = ({ setTheme, theme }) => {
 
           <div className="link-container" id={showLinks ? "hidden" : ""}>
             <div className="right-side-navbar" id={showLinks ? "hidden" : ""}>
-              <NavLink className={getActiveClass("/auth", location)} to="/auth">
-                Login/Register
-              </NavLink>
+              {!user ? (
+                <NavLink
+                  className={getActiveClass("/auth", location)}
+                  to="/auth"
+                >
+                  Login/Register
+                </NavLink>
+              ) : (
+                <button>LogOut {user.username}</button>
+              )}
             </div>
           </div>
           {/* <button className="toggle-theme-button" onClick={toggleTheme}>

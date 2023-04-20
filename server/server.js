@@ -22,7 +22,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser("mosquito"));
 var allowedList = [
   "http://localhost:4001",
   "http://localhost:5173",
@@ -31,7 +31,7 @@ var allowedList = [
 var corsOptionsDelegate = (req, callback) => {
   var corsOptions;
   if (allowedList.includes(req.header("Origin"))) {
-    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+    corsOptions = { origin: true, credentials: true }; // reflect (enable) the requested origin in the CORS response
   } else {
     corsOptions = { origin: false }; // disable CORS for this request
   }
