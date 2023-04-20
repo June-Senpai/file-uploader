@@ -30,7 +30,7 @@ router.get(
       let oldUser = await UserModel.findOne({ email });
       if (oldUser) {
         console.log("passed 1", oldUser);
-        let oldUpadtedUser = await UserModel.updateOne(
+        let oldUpdatedUser = await UserModel.updateOne(
           {
             email,
           },
@@ -55,11 +55,44 @@ router.get(
       }
       let user = await UserModel.findOne({ email });
       res.cookie("fileUploaderuuid", unique_id);
-      res.status(200).json({ message: "sign in successful", response: user });
+      res.cookie("fileUploaderUserEmail", email);
+      res.status(200).redirect("http://localhost:4001/?signedin=1");
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "internal server error" });
     }
   }
 );
+
+router.get("/login/status", async (req, res) => {
+  let unique_id = res.cookie.fileUploaderuuid;
+  let email = res.cookie.fileUploaderUserEmail;
+  try {
+    let user = await UserModel.findOne({ email });
+    if (user && user.unique_id === unique_id) {
+      await UserModel.updateOne(
+        { email },
+        {
+          $set: {
+            loggedInState: true,
+          },
+        }
+      );
+      res.status(200).json({ message: "login successful", response: user });
+    } else if (user) {
+      await UserModel.updateOne(
+        { email },
+        {
+          $set: {
+            loggedInState: false,
+          },
+        }
+      );
+      res.status(200).json({ message: "login failed,try again" });
+    }
+  } catch {
+    console.error(err);
+    res.status(500).json({ message: "internal server error" });
+  }
+});
 export { router as googleRouter };

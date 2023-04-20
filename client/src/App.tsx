@@ -37,8 +37,6 @@ function App() {
             <Navbar setTheme={setTheme} theme={theme} />
             <Routes>
               <Route path="/" element={<Logo />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/cart" element={<Cart />} />
               <Route path="/auth" element={<Auth />} />
               {/* //!for any unknown route without /random-word */}
               <Route path="*" element={<Navigate to="/" />} />

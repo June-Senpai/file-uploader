@@ -9,6 +9,7 @@ const authentication = async (req, res, next) => {
     req.userData = existingUser;
     next();
   } else {
+    // await UserModel.updateOne({ unique_id });
     res.status(401).json({ message: "user is unauthenticated" });
   }
 };
