@@ -56,7 +56,7 @@ router.get(
       let user = await UserModel.findOne({ email });
       res.cookie("fileUploaderuuid", unique_id);
       res.cookie("fileUploaderUserEmail", email);
-      res.status(200).redirect("http://localhost:4001/?signedin=1");
+      res.status(200).redirect("http://localhost:5173/?signedin=1");
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "internal server error" });
