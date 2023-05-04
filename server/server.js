@@ -51,13 +51,14 @@ app.use(express.static("public"));
 import "./models/fileSchema.js";
 import "./models/userSchema.js";
 
+app.use("/", (req, res) => {
+  res.send("welcome to file uploader");
+});
+
 app.use(googleRouter);
 app.use(authentication);
 app.use(uploadRouter);
 
-app.use("/", (req, res) => {
-  res.send("welcome to file uploader");
-});
 app.listen(port, () =>
   console.log(`server started on http://localhost:${port} `)
 );
