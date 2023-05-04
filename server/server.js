@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 // import passport from "passport";
@@ -22,7 +22,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser("mosquito"));
+app.use(cookieParser("mosquito")); // for signing the cookies using passphrase mosquito
 var allowedList = [
   "http://localhost:4001",
   "http://localhost:5173",

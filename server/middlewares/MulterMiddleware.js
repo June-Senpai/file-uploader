@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, `${uuidv4()}_${path.extname(file.originalname)}`);
+    cb(null, `${uuidv4()}_${file.originalname}`);
   },
 });
 
@@ -18,6 +18,7 @@ const fileFilter = (req, file, cb) => {
     "image/png",
     "application/pdf",
     "video/mp4",
+    "text/plain",
   ];
   if (allowedFileTypes.includes(file.mimetype)) {
     cb(null, true);

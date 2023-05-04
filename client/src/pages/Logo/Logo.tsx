@@ -23,12 +23,12 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setUser(data.response);
         return data.response;
       })
       .then((user) => {
-        console.log({ user });
+        // console.log({ user });
 
         fetch("http://localhost:4001/file/list", {
           credentials: "include",
@@ -40,7 +40,7 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
 
     return () => {};
   }, [user?.username]);
-  console.log({ files });
+  // console.log({ files });
   return (
     <div className="logo-container">
       <ThemedBackground />
@@ -65,10 +65,10 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
                     })
 
                     .catch((error) => console.log(error));
-                  console.log(e.target?.result);
+                  // console.log(e.target?.result);
                 };
                 reader.readAsText(file);
-                console.log(e.target.files);
+                // console.log(e.target.files);
               }}
               type="file"
             ></input>
@@ -78,8 +78,11 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
         {files.map((file: any) => {
           return (
             <li key={file._id}>
-              <a href={`http://localhost:4001/file/${file._id}`}>
-                {file.fileName}
+              <a
+                className="file-name"
+                href={`http://localhost:4001/file/${file._id}`}
+              >
+                {file.fileName.split("_")[1]}
               </a>
               <button
                 className="delete-button"
