@@ -80,7 +80,7 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
             <li key={file._id}>
               <a
                 className="file-name"
-                href={`http://localhost:4001/file/${file._id}`}
+                href={`${import.meta.env.BACKEND_URL}/file/${file._id}`}
               >
                 {file.fileName.split("_")[1]}
               </a>

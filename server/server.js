@@ -27,6 +27,7 @@ var allowedList = [
   "http://localhost:4001",
   "http://localhost:5173",
   "http://localhost",
+  `${process.env.FRONT_END_URL}`,
 ];
 var corsOptionsDelegate = (req, callback) => {
   var corsOptions;
