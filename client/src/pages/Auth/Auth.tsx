@@ -11,7 +11,10 @@ const Auth = () => {
           <span className="google-signin-button-icon"></span>
           <span
             onClick={() =>
-              window.open("http://localhost:4001/google/signin", "_self")
+              window.open(
+                `${import.meta.env.BACKEND_URL}google/signin`,
+                "_self"
+              )
             }
             className="google-signin-button-text"
           >
