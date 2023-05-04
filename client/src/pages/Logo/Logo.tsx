@@ -18,7 +18,7 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
   });
   const [files, setFiles] = useState<any>([]);
   useEffect(() => {
-    const response = fetch(`${import.meta.env.BACKEND_URL}/login/status`, {
+    const response = fetch(`${import.meta.env.VITE_BACKEND_URL}/login/status`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -29,8 +29,7 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
       })
       .then((user) => {
         // console.log({ user });
-
-        fetch(`${import.meta.env.BACKEND_URL}/file/list`, {
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/file/list`, {
           credentials: "include",
         })
           .then((res) => res.json())
@@ -54,7 +53,7 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
                 reader.onload = (e) => {
                   const form = new FormData();
                   form.append("file", file);
-                  fetch(`${import.meta.env.BACKEND_URL}/file/upload`, {
+                  fetch(`${import.meta.env.VITE_BACKEND_URL}/file/upload`, {
                     method: "POST",
                     credentials: "include",
                     body: form,
@@ -80,7 +79,7 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
             <li key={file._id}>
               <a
                 className="file-name"
-                href={`${import.meta.env.BACKEND_URL}/file/${file._id}`}
+                href={`${import.meta.env.VITE_BACKEND_URL}/file/${file._id}`}
               >
                 {file.fileName.split("_")[1]}
               </a>
@@ -88,7 +87,8 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
                 className="delete-button"
                 onClick={() => {
                   fetch(
-                    `${import.meta.env.BACKEND_URL}/file/delete/` + file._id,
+                    `${import.meta.env.VITE_BACKEND_URL}/file/delete/` +
+                      file._id,
                     {
                       credentials: "include",
                     }

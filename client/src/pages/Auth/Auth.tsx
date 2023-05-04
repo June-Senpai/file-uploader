@@ -12,7 +12,7 @@ const Auth = () => {
           <span
             onClick={() =>
               window.open(
-                `${import.meta.env.BACKEND_URL}/google/signin`,
+                `${import.meta.env.VITE_BACKEND_URL}/google/signin`,
                 "_self"
               )
             }

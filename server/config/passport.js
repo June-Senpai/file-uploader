@@ -5,10 +5,11 @@ dotenv.config();
 import { Passport } from "passport";
 
 const passport = new Passport();
+console.log(process.env.FRONT_END_URL, "c here");
 const googleSecret = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: `${process.env.FRONT_END_URL}/google/callback`,
+  callbackURL: `${process.env.BACK_END_URL}/google/callback`,
 };
 passport.serializeUser(function (user, done) {
   done(null, user);

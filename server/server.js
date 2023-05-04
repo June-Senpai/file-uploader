@@ -51,10 +51,9 @@ app.use(express.static("public"));
 import "./models/fileSchema.js";
 import "./models/userSchema.js";
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("welcome to file uploader");
 });
-
 app.use(googleRouter);
 app.use(authentication);
 app.use(uploadRouter);
