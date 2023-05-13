@@ -11,28 +11,44 @@ interface LogoProps {
 }
 export const Logo: FC<LogoProps> = ({ setUser, user }) => {
   const navigate = useNavigate();
+  // const queryParameters = new URLSearchParams(window.location.search);
+  // const fileUploaderuuid = queryParameters.get("fileuploaderuseremail");
+  // const fileUploaderUserEmail = queryParameters.get("fileuploaderuuid");
+  // console.log({ fileUploaderUserEmail });
+  // console.log({ fileUploaderuuid });
+
+  const [files, setFiles] = useState<any>([]);
+  const queryParameters = new URLSearchParams(window.location.search);
+  const fileUploaderUserEmail = queryParameters.get("fileUploaderUserEmail");
+  const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
+  console.log({ fileUploaderUserEmail });
+  console.log({ fileUploaderuuid });
+
   useEffect(() => {
     if (!user) {
       navigate("/auth");
+    } else {
+      navigate("/");
     }
   });
-  const [files, setFiles] = useState<any>([]);
+
   useEffect(() => {
-    const response = fetch(`${import.meta.env.VITE_BACKEND_URL}/login/status`, {
-      credentials: "include",
-    })
+    const response = fetch(
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/login/status?fileUploaderuuid=${fileUploaderuuid}&?fileUploaderUserEmail=${fileUploaderUserEmail}`,
+      {
+        credentials: "include",
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        if (!data.response) {
-          navigate("/auth");
-        }
         setUser(data.response);
 
         return data.response;
       })
       .then((user) => {
-        // console.log({ user });
+        console.log({ user }, "sgkjsdbngkjs");
         fetch(`${import.meta.env.VITE_BACKEND_URL}/file/list`, {
           credentials: "include",
         })
@@ -41,6 +57,38 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
         navigate("/");
       });
   }, [user?.username]);
+  // useEffect(() => {
+  //   if (!user && !fileUploaderuuid && !fileUploaderUserEmail) {
+  //     navigate("/auth");
+  //   }
+  //   const response = fetch(
+  //     `${
+  //       import.meta.env.VITE_BACKEND_URL
+  //     }/login/status?fileUploaderuuid=${fileUploaderuuid}&?fileUploaderUserEmail=${fileUploaderUserEmail}`,
+  //     {
+  //       credentials: "include",
+  //     }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       if (!data.response) {
+  //         navigate("/auth");
+  //       }
+  //       setUser(data.response);
+
+  //       return data.response;
+  //     })
+  //     .then((user) => {
+  //       // console.log({ user });
+  //       fetch(`${import.meta.env.VITE_BACKEND_URL}/file/list`, {
+  //         credentials: "include",
+  //       })
+  //         .then((res) => res.json())
+  //         .then((data) => setFiles(data.response));
+  //       navigate("/");
+  //     });
+  // }, [user?.username]);
   // console.log({ files });
   return (
     <div className="logo-container">

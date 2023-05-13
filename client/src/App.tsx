@@ -23,40 +23,9 @@ export const ThemeContext = createContext<ThemeContextType>({
 
 function App() {
   const queryParameters = new URLSearchParams(window.location.search);
-  const email = queryParameters.get("fileUploaderUserEmail");
-  const unique_id = queryParameters.get("fileUploaderuuid");
+  const fileUploaderUserEmail = queryParameters.get("fileUploaderUserEmail");
+  const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
 
-  const cookieValue_unique_id = decodeURIComponent(unique_id ? unique_id : "");
-  const cookieValue_email = decodeURIComponent(email ? email : "");
-
-  async function generateSignature(
-    value: string,
-    paraphrase: string = "mosquito"
-  ): Promise<string> {
-    // Concatenate the value and paraphrase
-    const data = value + paraphrase;
-
-    // Convert the data to UTF-8 bytes
-    const dataBytes = new TextEncoder().encode(data);
-
-    // Generate the signature using the SubtleCrypto API
-    const signatureBuffer = await crypto.subtle.digest("SHA-256", dataBytes);
-    const signatureArray = Array.from(new Uint8Array(signatureBuffer));
-    const signatureHex = signatureArray
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
-    return signatureHex;
-  }
-  async function setCookiesFromParams() {
-    document.cookie = `fileUploaderUserEmail=${cookieValue_email}; signature=${await generateSignature(
-      cookieValue_email
-    )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
-    document.cookie = `fileUploaderuuid=${cookieValue_unique_id}; signature=${await generateSignature(
-      cookieValue_unique_id
-    )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
-  }
-
-  setCookiesFromParams();
   const [theme, setTheme] = useState<Theme>("light");
   const [user, setUser] = useState<any>();
 

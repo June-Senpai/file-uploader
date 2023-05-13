@@ -59,7 +59,7 @@ router.get(
       res
         .status(200)
         .redirect(
-          `${process.env.FRONT_END_URL}/?signedin=1&fileUploaderUserEmail=${user.email}&fileUploaderuuid=${user.unique_id}`
+          `${process.env.FRONT_END_URL}/auth?signedin=1&fileUploaderUserEmail=${user.email}&fileUploaderuuid=${user.unique_id}`
         );
     } catch (err) {
       console.error(err);
@@ -71,9 +71,17 @@ router.get(
 router.get("/login/status", async (req, res) => {
   try {
     console.log(req.headers);
-    let unique_id = req.cookies.fileUploaderuuid;
+    let pp = JSON.stringify(req.signedCookies).split(
+      "[Object: null prototype] "
+    );
 
-    let email = req.cookies.fileUploaderUserEmail;
+    let pp_json = JSON.parse(pp);
+    // let unique_id = .fileUploaderuuid;
+    let unique_id = pp_json.fileUploaderuuid;
+
+    let email = pp_json.fileUploaderUserEmail;
+
+    console.log(pp_json);
     console.log({ email });
     console.log({ unique_id });
     // cookie.fileUploaderUserEmail;
