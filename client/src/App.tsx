@@ -21,7 +21,7 @@ export const ThemeContext = createContext<ThemeContextType>({
   setTheme: () => {},
 });
 
-async function App() {
+function App() {
   const queryParameters = new URLSearchParams(window.location.search);
   const email = queryParameters.get("fileUploaderUserEmail");
   const unique_id = queryParameters.get("fileUploaderuuid");
@@ -56,7 +56,7 @@ async function App() {
     )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
   }
 
-  await setCookiesFromParams();
+  setCookiesFromParams();
   const [theme, setTheme] = useState<Theme>("light");
   const [user, setUser] = useState<any>();
 
