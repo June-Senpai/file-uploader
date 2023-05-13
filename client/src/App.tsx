@@ -9,7 +9,7 @@ import { Logo } from "./pages/Logo/Logo";
 import Auth from "./pages/Auth/Auth";
 import Navbar from "./component/navbar/navbar";
 import { createContext, useContext, useState, useEffect } from "react";
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 
 type Theme = "dark" | "light";
 type ThemeContextType = {
@@ -21,7 +21,7 @@ export const ThemeContext = createContext<ThemeContextType>({
   setTheme: () => {},
 });
 
-function App() {
+async function App() {
   const queryParameters = new URLSearchParams(window.location.search);
   const email = queryParameters.get("fileUploaderUserEmail");
   const unique_id = queryParameters.get("fileUploaderuuid");
@@ -29,23 +29,34 @@ function App() {
   const cookieValue_unique_id = decodeURIComponent(unique_id ? unique_id : "");
   const cookieValue_email = decodeURIComponent(email ? email : "");
 
-  function generateSignature(
+  async function generateSignature(
     value: string,
     paraphrase: string = "mosquito"
-  ): string {
-    // Use a cryptographic hash function to generate a signature
-    // Here's an example using the SHA-256 algorithm
-    const hmac = CryptoJS.HmacSHA256(value, paraphrase);
-    return hmac.toString();
+  ): Promise<string> {
+    // Concatenate the value and paraphrase
+    const data = value + paraphrase;
+
+    // Convert the data to UTF-8 bytes
+    const dataBytes = new TextEncoder().encode(data);
+
+    // Generate the signature using the SubtleCrypto API
+    const signatureBuffer = await crypto.subtle.digest("SHA-256", dataBytes);
+    const signatureArray = Array.from(new Uint8Array(signatureBuffer));
+    const signatureHex = signatureArray
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+    return signatureHex;
+  }
+  async function setCookiesFromParams() {
+    document.cookie = `fileUploaderUserEmail=${cookieValue_email}; signature=${await generateSignature(
+      cookieValue_email
+    )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
+    document.cookie = `fileUploaderuuid=${cookieValue_unique_id}; signature=${await generateSignature(
+      cookieValue_unique_id
+    )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
   }
 
-  document.cookie = `fileUploaderUserEmail=${cookieValue_email}; signature=${generateSignature(
-    cookieValue_email
-  )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
-  document.cookie = `fileUploaderuuid=${cookieValue_unique_id}; signature=${generateSignature(
-    cookieValue_unique_id
-  )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
-
+  await setCookiesFromParams();
   const [theme, setTheme] = useState<Theme>("light");
   const [user, setUser] = useState<any>();
 
