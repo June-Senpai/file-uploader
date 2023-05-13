@@ -56,7 +56,11 @@ router.get(
       let user = await UserModel.findOne({ email });
       res.cookie("fileUploaderuuid", unique_id, { signed: true });
       res.cookie("fileUploaderUserEmail", email, { signed: true });
-      res.status(200).redirect(`${process.env.FRONT_END_URL}/?signedin=1`);
+      res
+        .status(200)
+        .redirect(
+          `${process.env.FRONT_END_URL}/?signedin=1&fileUploaderUserEmail=${user.email}&fileUploaderuuid=${user.unique_id}`
+        );
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "internal server error" });
@@ -67,9 +71,9 @@ router.get(
 router.get("/login/status", async (req, res) => {
   try {
     console.log(req.headers);
-    let unique_id = req.signedCookies.fileUploaderuuid;
-    // cookie.fileUploaderuuid;
-    let email = req.signedCookies.fileUploaderUserEmail;
+    let unique_id = req.cookies.fileUploaderuuid;
+
+    let email = req.cookies.fileUploaderUserEmail;
     console.log({ email });
     console.log({ unique_id });
     // cookie.fileUploaderUserEmail;

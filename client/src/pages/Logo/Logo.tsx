@@ -23,8 +23,12 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
+        if (!data.response) {
+          navigate("/auth");
+        }
         setUser(data.response);
+
         return data.response;
       })
       .then((user) => {
@@ -36,8 +40,6 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
           .then((data) => setFiles(data.response));
         navigate("/");
       });
-
-    return () => {};
   }, [user?.username]);
   // console.log({ files });
   return (

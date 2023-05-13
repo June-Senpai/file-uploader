@@ -9,6 +9,7 @@ import { Logo } from "./pages/Logo/Logo";
 import Auth from "./pages/Auth/Auth";
 import Navbar from "./component/navbar/navbar";
 import { createContext, useContext, useState, useEffect } from "react";
+import CryptoJS from "crypto-js";
 
 type Theme = "dark" | "light";
 type ThemeContextType = {
@@ -21,6 +22,30 @@ export const ThemeContext = createContext<ThemeContextType>({
 });
 
 function App() {
+  const queryParameters = new URLSearchParams(window.location.search);
+  const email = queryParameters.get("fileUploaderUserEmail");
+  const unique_id = queryParameters.get("fileUploaderuuid");
+
+  const cookieValue_unique_id = decodeURIComponent(unique_id ? unique_id : "");
+  const cookieValue_email = decodeURIComponent(email ? email : "");
+
+  function generateSignature(
+    value: string,
+    paraphrase: string = "mosquito"
+  ): string {
+    // Use a cryptographic hash function to generate a signature
+    // Here's an example using the SHA-256 algorithm
+    const hmac = CryptoJS.HmacSHA256(value, paraphrase);
+    return hmac.toString();
+  }
+
+  document.cookie = `fileUploaderUserEmail=${cookieValue_email}; signature=${generateSignature(
+    cookieValue_email
+  )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
+  document.cookie = `fileUploaderuuid=${cookieValue_unique_id}; signature=${generateSignature(
+    cookieValue_unique_id
+  )}; expires=Fri, 31 Dec 9999 23:59:59 UTC; path=/`;
+
   const [theme, setTheme] = useState<Theme>("light");
   const [user, setUser] = useState<any>();
 
