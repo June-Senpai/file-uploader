@@ -89,7 +89,7 @@ const Navbar: FC<NavbarProps> = ({ setTheme, theme, user, setUser }) => {
 
           <div className="link-container" id={showLinks ? "hidden" : ""}>
             <div className="right-side-navbar" id={showLinks ? "hidden" : ""}>
-              {!user ? (
+              {!Object.keys(user)?.length ? (
                 <NavLink
                   className={getActiveClass("/auth", location)}
                   to="/auth"
@@ -102,9 +102,10 @@ const Navbar: FC<NavbarProps> = ({ setTheme, theme, user, setUser }) => {
                   onClick={() => {
                     document.cookie =
                       "fileUploaderUserEmail=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;fileUploaderuuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    navigate("/auth");
+                    window.location.reload();
                     user.username = "";
                     setUser(null);
+                    console.log("hello cleared cookies");
                   }}
                 >
                   LogOut {user.username}

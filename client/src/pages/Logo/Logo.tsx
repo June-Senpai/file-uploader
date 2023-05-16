@@ -4,8 +4,8 @@ import "./logo.css";
 import { useNavigate } from "react-router-dom";
 import { ThemedBackground } from "../../component/ThemedBackground";
 import axios from "axios";
-type User = any;
-interface LogoProps {
+export type User = any;
+export interface LogoProps {
   setUser: (user: User) => void;
   user: User;
 }
@@ -25,12 +25,13 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
   console.log({ fileUploaderuuid });
 
   useEffect(() => {
-    if (!user) {
+    const isUserEmtpy = Object.keys(user)?.length < 1;
+    if (isUserEmtpy) {
       navigate("/auth");
     } else {
       navigate("/");
     }
-  });
+  }, [user?._id]);
 
   useEffect(() => {
     const response = fetch(
@@ -54,6 +55,8 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
         })
           .then((res) => res.json())
           .then((data) => setFiles(data.response));
+        console.log("passed here............");
+
         navigate("/");
       });
   }, [user?.username]);

@@ -27,7 +27,7 @@ function App() {
   const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
 
   const [theme, setTheme] = useState<Theme>("light");
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<any>({});
 
   useEffect(() => {
     document.body.className = theme; // add theme value as class name to body element
@@ -49,7 +49,10 @@ function App() {
                 path="/"
                 element={<Logo setUser={setUser} user={user} />}
               />
-              <Route path="/auth" element={<Auth />} />
+              <Route
+                path="/auth"
+                element={<Auth user={user} setUser={setUser} />}
+              />
               {/* //!for any unknown route without /random-word */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
