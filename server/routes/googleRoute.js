@@ -57,10 +57,12 @@ router.get(
       res.cookie("fileUploaderuuid", unique_id, {
         signed: true,
         domain: process.env.FRONT_END_DOMAIN,
+        sameSite: "none",
       });
       res.cookie("fileUploaderUserEmail", email, {
         signed: true,
         domain: process.env.FRONT_END_DOMAIN,
+        sameSite: "none",
       });
       res
         .status(200)
