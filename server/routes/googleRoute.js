@@ -54,8 +54,14 @@ router.get(
         await newUsers.save();
       }
       let user = await UserModel.findOne({ email });
-      res.cookie("fileUploaderuuid", unique_id, { signed: true });
-      res.cookie("fileUploaderUserEmail", email, { signed: true });
+      res.cookie("fileUploaderuuid", unique_id, {
+        signed: true,
+        domain: process.env.FRONT_END_URL,
+      });
+      res.cookie("fileUploaderUserEmail", email, {
+        signed: true,
+        domain: process.env.FRONT_END_URL,
+      });
       res
         .status(200)
         .redirect(
