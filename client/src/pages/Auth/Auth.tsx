@@ -16,6 +16,7 @@ const Auth: FC<LogoProps> = ({
   const fileUploaderUserEmail = queryParameters.get("fileUploaderUserEmail");
   const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
   console.log({ fileUploaderuuid, fileUploaderUserEmail, email, uuid });
+  console.log({ location: window.location.search });
 
   const navigate = useNavigate();
   useEffect(() => {
