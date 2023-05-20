@@ -61,6 +61,10 @@ export const Logo: FC<LogoProps> = ({
       .then((res) => res.json())
       .then((data) => {
         setUser(data.response);
+        setuuid(uuid || "");
+        setemail(email || "");
+
+        console.log({ data });
 
         return data.response;
       })

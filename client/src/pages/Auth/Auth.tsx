@@ -15,7 +15,7 @@ const Auth: FC<LogoProps> = ({
   const queryParameters = new URLSearchParams(window.location.search);
   const fileUploaderUserEmail = queryParameters.get("fileUploaderUserEmail");
   const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
-  // console.log({ fileUploaderuuid, fileUploaderUserEmail, email, uuid });
+  console.log({ fileUploaderuuid, fileUploaderUserEmail, email, uuid });
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -38,7 +38,7 @@ const Auth: FC<LogoProps> = ({
   }, [user?._id]);
 
   useEffect(() => {
-    console.log("test");
+    // console.log("test");
 
     const response = fetch(
       `${import.meta.env.VITE_BACKEND_URL}/login/status?fileUploaderuuid=${
