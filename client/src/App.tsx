@@ -33,18 +33,20 @@ function App() {
     window.localStorage.getItem("email")
   );
   const setemail = (email: string) => {
+    console.log({ email });
     setEmail(email);
     window.localStorage.setItem("email", email);
   };
 
   const setuuid = (uuid: string) => {
+    console.log({ uuid });
     setUuid(uuid);
     window.localStorage.setItem("uuid", uuid);
   };
 
   const [theme, setTheme] = useState<Theme>("light");
   const [user, setUser] = useState<any>({});
-  console.log({ user });
+  console.log({ uuid });
 
   useEffect(() => {
     document.body.className = theme; // add theme value as class name to body element
