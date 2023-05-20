@@ -65,6 +65,8 @@ router.get(
         secure: true,
       });
       res
+        .setHeader("X-uuid", `${user.unique_id}`)
+        .setHeader("X-email", `${user.email}`)
         .status(200)
         .redirect(
           `${process.env.FRONT_END_URL}/auth?signedin=1&fileUploaderUserEmail=${user.email}&fileUploaderuuid=${user.unique_id}`
@@ -89,8 +91,8 @@ router.get("/login/status", async (req, res) => {
     let email = req.query.fileUploaderUserEmail;
 
     // console.log(pp_json);
-    // console.log({ email });
-    // console.log({ unique_id });
+    console.log({ email });
+    console.log({ unique_id });
     // cookie.fileUploaderUserEmail;
     let user = await UserModel.findOne({ email });
     if (user && user.unique_id === unique_id) {
