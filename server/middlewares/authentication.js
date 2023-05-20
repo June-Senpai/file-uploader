@@ -2,7 +2,8 @@ import UserModel from "../models/userSchema.js";
 // require("./models/userSchema.js");
 
 const authentication = async (req, res, next) => {
-  let unique_id = req.signedCookies.fileUploaderuuid;
+  let unique_id = req.header("Authorization");
+  console.log({ headers: req.headers });
   let existingUser = await UserModel.findOne({ unique_id });
 
   if (existingUser) {

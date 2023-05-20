@@ -4,10 +4,19 @@ import "./auth.css";
 import { useNavigate } from "react-router-dom";
 import { User, LogoProps } from "../Logo/Logo";
 
-const Auth: FC<LogoProps> = ({ user, setUser }) => {
+const Auth: FC<LogoProps> = ({
+  user,
+  setUser,
+  email,
+  setuuid,
+  setemail,
+  uuid,
+}) => {
   const queryParameters = new URLSearchParams(window.location.search);
   const fileUploaderUserEmail = queryParameters.get("fileUploaderUserEmail");
   const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
+  // console.log({ fileUploaderuuid, fileUploaderUserEmail, email, uuid });
+
   const navigate = useNavigate();
   useEffect(() => {
     // "fileUploaderUserEmail=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;fileUploaderuuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -22,25 +31,30 @@ const Auth: FC<LogoProps> = ({ user, setUser }) => {
 
   useEffect(() => {
     const isUserEmtpy = Object.keys(user)?.length < 1;
-    console.log({ user, testmessage: "logged in" });
+    // console.log({ user, testmessage: "logged in" });
     if (!isUserEmtpy) {
       navigate("/");
     }
   }, [user?._id]);
 
   useEffect(() => {
+    console.log("test");
+
     const response = fetch(
-      `${
-        import.meta.env.VITE_BACKEND_URL
-      }/login/status?fileUploaderuuid=${fileUploaderuuid}&?fileUploaderUserEmail=${fileUploaderUserEmail}`,
-      {
-        credentials: "include",
-      }
+      `${import.meta.env.VITE_BACKEND_URL}/login/status?fileUploaderuuid=${
+        fileUploaderuuid || uuid
+      }&fileUploaderUserEmail=${fileUploaderUserEmail || email}`
+      // {
+      //   credentials: "include",
+      // }
     )
       .then((res) => res.json())
       .then((data) => {
-        setUser(data.response);
+        console.log({ data });
 
+        setUser(data.response);
+        setuuid(fileUploaderuuid || uuid || "");
+        setemail(fileUploaderUserEmail || email || "");
         return data.response;
       });
   }, [user?.username]);

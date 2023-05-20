@@ -55,12 +55,12 @@ router.get(
       }
       let user = await UserModel.findOne({ email });
       res.cookie("fileUploaderuuid", unique_id, {
-        signed: true,
+        // signed: true,
         sameSite: "none",
         secure: true,
       });
       res.cookie("fileUploaderUserEmail", email, {
-        signed: true,
+        // signed: true,
         sameSite: "none",
         secure: true,
       });
@@ -78,20 +78,19 @@ router.get(
 
 router.get("/login/status", async (req, res) => {
   try {
-    console.log(req.headers);
-    let pp = JSON.stringify(req.signedCookies).split(
-      "[Object: null prototype] "
-    );
+    // console.log(req.headers);
+    console.log({ query: req.query });
+    let pp = JSON.stringify(req.cookies).split("[Object: null prototype] ");
 
     let pp_json = JSON.parse(pp);
     // let unique_id = .fileUploaderuuid;
-    let unique_id = pp_json.fileUploaderuuid;
+    let unique_id = req.query.fileUploaderuuid;
 
-    let email = pp_json.fileUploaderUserEmail;
+    let email = req.query.fileUploaderUserEmail;
 
-    console.log(pp_json);
-    console.log({ email });
-    console.log({ unique_id });
+    // console.log(pp_json);
+    // console.log({ email });
+    // console.log({ unique_id });
     // cookie.fileUploaderUserEmail;
     let user = await UserModel.findOne({ email });
     if (user && user.unique_id === unique_id) {

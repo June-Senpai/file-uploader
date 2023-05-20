@@ -22,9 +22,18 @@ interface NavbarProps {
   theme: Theme;
   user: User;
   setUser: (user: User) => void;
+  setemail: (email: string) => void;
+  setuuid: (uuid: string) => void;
 }
 
-const Navbar: FC<NavbarProps> = ({ setTheme, theme, user, setUser }) => {
+const Navbar: FC<NavbarProps> = ({
+  setTheme,
+  theme,
+  user,
+  setUser,
+  setemail,
+  setuuid,
+}) => {
   const toggleTheme = () => {
     if (theme === "light") {
       document.documentElement.style.setProperty("--color1", "black");
@@ -100,12 +109,13 @@ const Navbar: FC<NavbarProps> = ({ setTheme, theme, user, setUser }) => {
                 <button
                   className="delete-button"
                   onClick={() => {
-                    document.cookie =
-                      "fileUploaderUserEmail=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;fileUploaderuuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    window.location.reload();
+                    // window.location.reload();
                     user.username = "";
-                    setUser(null);
-                    console.log("hello cleared cookies");
+                    window.localStorage.clear();
+                    setUser({});
+                    setuuid("");
+                    setemail("");
+                    // console.log("hello cleared cookies");
                   }}
                 >
                   LogOut {user.username}

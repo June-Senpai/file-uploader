@@ -26,8 +26,25 @@ function App() {
   const fileUploaderUserEmail = queryParameters.get("fileUploaderUserEmail");
   const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
 
+  const [uuid, setUuid] = useState<any>(() =>
+    window.localStorage.getItem("uuid")
+  );
+  const [email, setEmail] = useState<any>(() =>
+    window.localStorage.getItem("email")
+  );
+  const setemail = (email: string) => {
+    setEmail(email);
+    window.localStorage.setItem("email", email);
+  };
+
+  const setuuid = (uuid: string) => {
+    setUuid(uuid);
+    window.localStorage.setItem("uuid", uuid);
+  };
+
   const [theme, setTheme] = useState<Theme>("light");
   const [user, setUser] = useState<any>({});
+  console.log({ user });
 
   useEffect(() => {
     document.body.className = theme; // add theme value as class name to body element
@@ -43,15 +60,35 @@ function App() {
               theme={theme}
               user={user}
               setUser={setUser}
+              setemail={setemail}
+              setuuid={setuuid}
             />
             <Routes>
               <Route
                 path="/"
-                element={<Logo setUser={setUser} user={user} />}
+                element={
+                  <Logo
+                    setUser={setUser}
+                    user={user}
+                    uuid={uuid}
+                    setuuid={setuuid}
+                    email={email}
+                    setemail={setemail}
+                  />
+                }
               />
               <Route
                 path="/auth"
-                element={<Auth user={user} setUser={setUser} />}
+                element={
+                  <Auth
+                    user={user}
+                    setUser={setUser}
+                    uuid={uuid}
+                    setuuid={setuuid}
+                    email={email}
+                    setemail={setemail}
+                  />
+                }
               />
               {/* //!for any unknown route without /random-word */}
               <Route path="*" element={<Navigate to="/" />} />

@@ -8,8 +8,20 @@ export type User = any;
 export interface LogoProps {
   setUser: (user: User) => void;
   user: User;
+  uuid: string | undefined;
+  setuuid: (uuid: string) => void;
+  email: string | undefined;
+  setemail: (email: string) => void;
 }
-export const Logo: FC<LogoProps> = ({ setUser, user }) => {
+
+export const Logo: FC<LogoProps> = ({
+  setUser,
+  user,
+  uuid,
+  setuuid,
+  email,
+  setemail,
+}) => {
   const navigate = useNavigate();
   // const queryParameters = new URLSearchParams(window.location.search);
   // const fileUploaderuuid = queryParameters.get("fileuploaderuseremail");
@@ -21,8 +33,9 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
   const queryParameters = new URLSearchParams(window.location.search);
   const fileUploaderUserEmail = queryParameters.get("fileUploaderUserEmail");
   const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
-  console.log({ fileUploaderUserEmail });
-  console.log({ fileUploaderuuid });
+  // console.log({ fileUploaderUserEmail });
+  // console.log({ fileUploaderuuid });
+  // console.log({ uuid, email });
 
   useEffect(() => {
     const isUserEmtpy = Object.keys(user)?.length < 1;
@@ -37,9 +50,12 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
     const response = fetch(
       `${
         import.meta.env.VITE_BACKEND_URL
-      }/login/status?fileUploaderuuid=${fileUploaderuuid}&?fileUploaderUserEmail=${fileUploaderUserEmail}`,
+      }/login/status?fileUploaderuuid=${uuid}&fileUploaderUserEmail=${email}`,
       {
-        credentials: "include",
+        // credentials: "include",
+        headers: {
+          Authorization: uuid || "",
+        },
       }
     )
       .then((res) => res.json())
@@ -49,13 +65,19 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
         return data.response;
       })
       .then((user) => {
-        console.log({ user }, "sgkjsdbngkjs");
+        // console.log({ user }, "sgkjsdbngkjs");
         fetch(`${import.meta.env.VITE_BACKEND_URL}/file/list`, {
-          credentials: "include",
+          // credentials: "include",
+          headers: {
+            Authorization: uuid || "",
+          },
         })
           .then((res) => res.json())
-          .then((data) => setFiles(data.response));
-        console.log("passed here............");
+          .then((data) => {
+            setFiles(data.response);
+            setuuid(uuid || "");
+          });
+        // console.log("passed here............");
 
         navigate("/");
       });
@@ -108,8 +130,11 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
                   form.append("file", file);
                   fetch(`${import.meta.env.VITE_BACKEND_URL}/file/upload`, {
                     method: "POST",
-                    credentials: "include",
+                    // credentials: "include",
                     body: form,
+                    headers: {
+                      Authorization: uuid || "",
+                    },
                   })
                     .then((data) => data.json())
                     .then((data) => {
@@ -143,7 +168,10 @@ export const Logo: FC<LogoProps> = ({ setUser, user }) => {
                     `${import.meta.env.VITE_BACKEND_URL}/file/delete/` +
                       file._id,
                     {
-                      credentials: "include",
+                      // credentials: "include",
+                      headers: {
+                        Authorization: uuid || "",
+                      },
                     }
                   ).then(() =>
                     setFiles(files.filter((item: any) => item._id !== file._id))
