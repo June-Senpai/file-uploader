@@ -52,13 +52,21 @@ const Auth: FC<LogoProps> = ({
       //   credentials: "include",
       // }
     )
-      .then((res) => res.json())
+      .then((res) => {
+        const headers = res.headers;
+        const Xuuid = headers.get("X-uuid");
+        const Xemail = headers.get("X-email");
+        console.log({ Xemail, Xuuid });
+
+        return res.json();
+        res.json();
+      })
       .then((data) => {
         console.log({ data });
 
-        setUser(data.response);
-        setuuid(fileUploaderuuid || uuid || "");
-        setemail(fileUploaderUserEmail || email || "");
+        setUser(data.response.user || {});
+        setuuid(data.response.uuid || uuid || "");
+        setemail(data.response.email || email || "");
         return data.response;
       });
   }, [user?.username]);

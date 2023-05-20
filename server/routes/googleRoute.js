@@ -104,7 +104,12 @@ router.get("/login/status", async (req, res) => {
           },
         }
       );
-      res.status(200).json({ message: "login successful", response: user });
+      res
+        .status(200)
+        .json({
+          message: "login successful",
+          response: { user, uuid: unique_id, email },
+        });
     } else if (user) {
       await UserModel.updateOne(
         { email },
