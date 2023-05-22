@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.get("/file/list", async (req, res) => {
   let userId = String(req.userData._id).split('"')[0];
-  console.log(userId);
+  // console.log(userId);
   let files = await FileModel.find({ userId });
-  console.log(files);
+  // console.log(files);
   res.json({
     message: "success in sending files",
     response: JSON.parse(JSON.stringify(files)),

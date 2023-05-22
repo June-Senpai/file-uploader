@@ -19,7 +19,7 @@ router.get(
     failureRedirect: "/failed",
   }),
   async function (req, res) {
-    console.log(req.user);
+    // console.log(req.user);
     let username = req.user.profile.displayName;
     let email = req.user.profile._json.email;
     let access_token = req.user.access_token;
@@ -29,7 +29,7 @@ router.get(
     try {
       let oldUser = await UserModel.findOne({ email });
       if (oldUser) {
-        console.log("passed 1", oldUser);
+        // console.log("passed 1", oldUser);
         let oldUpdatedUser = await UserModel.updateOne(
           {
             email,
@@ -42,7 +42,7 @@ router.get(
           }
         );
       } else {
-        console.log("passed 2");
+        // console.log("passed 2");
         let newUsers = new UserModel({
           username,
           email,
@@ -81,7 +81,7 @@ router.get(
 router.get("/login/status", async (req, res) => {
   try {
     // console.log(req.headers);
-    console.log({ query: req.query });
+    // console.log({ query: req.query });
     let pp = JSON.stringify(req.cookies).split("[Object: null prototype] ");
 
     let pp_json = JSON.parse(pp);
@@ -91,8 +91,8 @@ router.get("/login/status", async (req, res) => {
     let email = req.query.fileUploaderUserEmail;
 
     // console.log(pp_json);
-    console.log({ email });
-    console.log({ unique_id });
+    // console.log({ email });
+    // console.log({ unique_id });
     // cookie.fileUploaderUserEmail;
     let user = await UserModel.findOne({ email });
     if (user && user.unique_id === unique_id) {
@@ -104,12 +104,10 @@ router.get("/login/status", async (req, res) => {
           },
         }
       );
-      res
-        .status(200)
-        .json({
-          message: "login successful",
-          response: { user, uuid: unique_id, email },
-        });
+      res.status(200).json({
+        message: "login successful",
+        response: { user, uuid: unique_id, email },
+      });
     } else if (user) {
       await UserModel.updateOne(
         { email },

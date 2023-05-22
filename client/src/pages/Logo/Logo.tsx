@@ -64,7 +64,7 @@ export const Logo: FC<LogoProps> = ({
         setuuid(data.response.uuid || uuid || "");
         setemail(data.response.email || email || "");
 
-        console.log({ data });
+        // console.log({ data });
 
         return data.response;
       })
@@ -109,7 +109,7 @@ export const Logo: FC<LogoProps> = ({
   //       return data.response;
   //     })
   //     .then((user) => {
-  //       // console.log({ user });
+  // console.log({ user });
   //       fetch(`${import.meta.env.VITE_BACKEND_URL}/file/list`, {
   //         credentials: "include",
   //       })

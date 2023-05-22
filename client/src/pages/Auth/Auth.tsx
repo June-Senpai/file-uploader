@@ -15,11 +15,11 @@ const Auth: FC<LogoProps> = ({
   const queryParameters = new URLSearchParams(window.location.search);
   const fileUploaderUserEmail = queryParameters.get("fileUploaderUserEmail");
   const fileUploaderuuid = queryParameters.get("fileUploaderuuid");
-  console.log({ fileUploaderuuid, fileUploaderUserEmail, email, uuid });
-  console.log({
-    locationTo: window.location.search,
-    location: window.location,
-  });
+  // console.log({ fileUploaderuuid, fileUploaderUserEmail, email, uuid });
+  // console.log({
+  //   locationTo: window.location.search,
+  //   location: window.location,
+  // });
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -56,13 +56,13 @@ const Auth: FC<LogoProps> = ({
         const headers = res.headers;
         const Xuuid = headers.get("X-uuid");
         const Xemail = headers.get("X-email");
-        console.log({ Xemail, Xuuid });
+        // console.log({ Xemail, Xuuid });
 
         return res.json();
         res.json();
       })
       .then((data) => {
-        console.log({ data });
+        // console.log({ data });
 
         setUser(data.response.user || {});
         setuuid(data.response.uuid || uuid || "");
